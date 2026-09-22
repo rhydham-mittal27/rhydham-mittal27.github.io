@@ -1,0 +1,22 @@
+# Rhydham Mittal
+
+> Full-stack engineer and founder based in Chandigarh, India. Builds full web products end-to-end — frontend, backend, data layer, and SEO — and is available for freelance work worldwide.
+
+## About
+
+- Founder of MentalSaathi, a peer-support mental wellness platform for students (mentalsaathi.in), built solo from concept to production in 6 weeks.
+- Built CollabFluenz (collabfluenz.com) as a freelance full-stack engagement for an external founder — a creator × brand collaboration marketplace.
+- Built a real-time Sign Language to Text Converter using computer vision (OpenCV, MediaPipe, scikit-learn) at GDG Hacks, 91% accuracy on a custom 26-class ASL dataset.
+- Created and maintains mango (mangoframe on PyPI), an open-source FastAPI + SQLAlchemy scaffolding framework.
+- B.Tech CSE (AI & ML) at Chandigarh University, 2024–2028.
+
+## Contact
+
+- WhatsApp: https://wa.me/917657971009
+- Email: rhydham937@gmail.com
+- GitHub: https://github.com/rhydham-mittal27
+- LinkedIn: https://linkedin.com/in/rhydhammittal27
+
+## Available for
+
+Full-stack web application builds (Next.js, FastAPI, PostgreSQL/Supabase), startup MVPs, and AI-integrated tooling, as a freelance engineer.
