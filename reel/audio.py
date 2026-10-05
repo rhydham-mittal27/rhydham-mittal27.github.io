@@ -23,6 +23,24 @@ TL = json.loads(re.sub(r"^window\.TL\s*=\s*|;\s*$", "", open(os.path.join(HERE, 
 DUR = TL["duration"]
 N = int(DUR * SR)
 BEAT = 60 / TL["bpm"]
+
+
+def _segs():
+    a, out = 0.0, []
+    for s in TL["segments"]:
+        out.append((s["design"][0], s["design"][1], a, a + s["real"]))
+        a += s["real"]
+    return out
+
+
+SEGS = _segs()
+
+
+def U(d):
+    """Design time -> real time (segments stretch to fit the voiceover)."""
+    for d0, d1, r0, r1 in SEGS:
+        if d < d1 or (d0, d1) == SEGS[-1][:2]:
+            return r0 + (d - d0) * (r1 - r0) / (d1 - d0)
 BAR = BEAT * 4
 rng = np.random.default_rng(7)
 
@@ -102,7 +120,7 @@ def build_music():
     mus = np.zeros((N, 2))
     drums = np.zeros((N, 2))
     k, c = kick(), clap()
-    b0, b1 = TL["breakdown"]
+    b0, b1 = U(TL["breakdown"][0]), U(TL["breakdown"][1])
     nbeats = int(round(DUR / BEAT))
     kick_times = []
     for b in range(nbeats):
@@ -115,7 +133,7 @@ def build_music():
             place(drums, c, tb, 0.8)
         # hats: offbeat 8ths, plus 16ths in the high-energy sections
         place(drums, hat(open_=(b % 4 == 3)), tb + BEAT / 2, 1.0)
-        if 13 <= tb < 19 or tb >= 22:
+        if U(13) <= tb < U(19) or tb >= U(22):
             place(drums, hat(), tb + BEAT / 4, 0.55)
             place(drums, hat(), tb + 3 * BEAT / 4, 0.55)
 
@@ -140,7 +158,7 @@ def build_music():
         # arp: 16ths in build / stack / CTA sections
         for s16 in range(16):
             ts = tb + s16 * BEAT / 4
-            if not (4 <= ts < 7 or 17 <= ts < 19 or 22 <= ts < 25.5):
+            if not (U(4) <= ts < U(7) or U(17) <= ts < U(19) or U(22) <= ts < U(25.5)):
                 continue
             m = (triad + [triad[0] + 12])[s16 % 4] + 12
             tt = t_arr(BEAT / 4)
@@ -232,9 +250,10 @@ def build_sfx():
     fx = np.zeros((N, 2))
     for c in TL["cuts"]:
         w = whoosh(0.4)
-        place(fx, np.stack([w * .8, w], 1), c - 0.3, 0.9)
+        place(fx, np.stack([w * .8, w], 1), U(c) - 0.3, 0.9)
     for cue in TL["sfx"]:
-        ty, at = cue["type"], cue["t"]
+        ty, at = cue["type"], U(cue["t"])
+        dur = U(cue["t"] + cue.get("dur", 0)) - at
         if ty == "impact":
             place(fx, impact(), at)
         elif ty == "stamp":
@@ -248,13 +267,13 @@ def build_sfx():
         elif ty == "slam":
             place(fx, slam_sfx(), at, 0.8)
         elif ty == "riser":
-            place(fx, riser(cue["dur"]), at)
+            place(fx, riser(dur), at)
         elif ty == "typing":
             for i in range(cue["chars"]):
-                place(fx, key_click(), at + cue["dur"] * i / cue["chars"] + rng.uniform(-.008, .008), rng.uniform(.6, 1))
+                place(fx, key_click(), at + dur * i / cue["chars"] + rng.uniform(-.008, .008), rng.uniform(.6, 1))
         elif ty == "ticks":
             for i in range(14):
-                place(fx, tick(), at + cue["dur"] * i / 14, 0.6)
+                place(fx, tick(), at + dur * i / 14, 0.6)
     return fx
 
 
@@ -282,8 +301,8 @@ def main():
         vo = vo / (np.abs(vo).max() + 1e-9) * 0.9
         # envelope follower -> duck music ~9 dB while speaking
         env = np.convolve(np.abs(vo), np.ones(int(0.05 * SR)) / int(0.05 * SR), "same")
-        duck = 1 - 0.65 * np.clip(env / 0.05, 0, 1)
-        mix = mix * duck[:, None] + np.stack([vo, vo], 1)
+        duck = 1 - 0.6 * np.clip(env / 0.04, 0, 1)
+        mix = 0.55 * mix * duck[:, None] + np.stack([vo, vo], 1)
         print("mixed voiceover.wav")
     mix = np.tanh(mix * 1.1)
     mix = mix / np.abs(mix).max() * 0.93

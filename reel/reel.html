@@ -256,12 +256,17 @@ function shake(t) {
   return [x, y];
 }
 
+// Real time -> design time: each segment's animations stretch to fit its voiceover line.
+const SEG = (() => { let a = 0; return TL.segments.map(s => { const o = { d0: s.design[0], d1: s.design[1], r0: a, r1: a + s.real }; a += s.real; return o; }); })();
+const warp = tr => { for (const s of SEG) if (tr < s.r1) return s.d0 + (tr - s.r0) * (s.d1 - s.d0) / (s.r1 - s.r0); return SEG[SEG.length-1].d1 - 1e-6; };
+
 const scenes = Object.fromEntries(TL.scenes.map(s => [s.id, s]));
 const sceneEls = Object.fromEntries(TL.scenes.map(s => [s.id, $('sc-' + s.id)]));
 
-function render(t) {
-  // background drift + beat pulse
-  const beat = 60 / TL.bpm, bp = Math.exp(-(t % beat) * 9) * (t >= 21.5 && t < 22 ? 0 : 1);
+function render(tr) {
+  const t = warp(tr);
+  // background drift + beat pulse (beat runs in real time)
+  const beat = 60 / TL.bpm, bp = Math.exp(-(tr % beat) * 9) * (t >= 21.5 && t < 22 ? 0 : 1);
   S($('glow1'), .9 + .1*bp, `translate(${Math.sin(t*.6)*80}px,${Math.cos(t*.45)*120}px) scale(${1 + .04*bp})`);
   S($('glow2'), 1, `translate(${Math.cos(t*.5)*90}px,${Math.sin(t*.4)*100}px)`);
   $('grid').style.backgroundPosition = `0 ${(t*60)%90}px`;
@@ -421,7 +426,7 @@ function render(t) {
   if (t >= .3 && t < .45) $('flash').style.opacity = .5 * (1 - R(t, .3, .45));
   if (t >= 22 && t < 22.18) $('flash').style.opacity = .6 * (1 - R(t, 22, 22.18));
 
-  subtitles(t);
+  subtitles(tr);
 }
 window.render = render;
 
