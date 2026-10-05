@@ -20,20 +20,7 @@ Everything here is original: the motion graphics, the music and the sound effect
 
 ## Post it
 
-**Caption** (keyword-first, because Instagram now ranks on caption search):
-
-```
-Full-stack developer for startups & founders 🚀
-I took MentalSaathi from blank repo → live product in 6 weeks, solo. 1,500+ visitors in month one on ₹0 ads.
-
-What I build: SaaS apps · startup MVPs · AI tools · landing pages that actually rank
-Stack: Next.js · FastAPI · PostgreSQL · Supabase
-
-💬 Comment "BUILD" and I'll DM you to scope your project.
-📲 Or WhatsApp: +91 76579 71009
-
-#fullstackdeveloper #freelancedeveloper #mvpdevelopment #startupindia #webdevelopment #nextjs #saas #indiedev
-```
+**Captions** (full drafts for each platform are in [`CAPTIONS.md`](CAPTIONS.md)). Instagram allows at most 5 hashtags since Dec 2025, YouTube shows the first 3, and LinkedIn works best with 3–5.
 
 **Checklist**
 1. Upload `rhydham-reel.mp4` and set `cover.jpg` as the cover.
