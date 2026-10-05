@@ -44,7 +44,7 @@ Stack: Next.js · FastAPI · PostgreSQL · Supabase
 
 ## Voiceover
 
-The narration uses Kokoro's `am_fenrir` voice. Names are spelled phonetically in `timeline.js` → `say` ("Ridham", "Mental Saathee", "Collab Fluence"), while the captions show the real spelling (`text`). Each scene stretches to fit its spoken line, with segments in `timeline.js` → `segments`.
+The narration uses Kokoro's `am_fenrir` voice. The spoken text is in `timeline.js` → `say`, and the captions show `text`. Names are respelled for the voice ("Rhythm", "Mental Saathee", "Collab Fluence"). Exact sounds can be pinned with inline IPA, e.g. `[live](/lˈaɪv/)` so "live" is said "laaiv", not "liv". Each scene stretches to fit its spoken line, with segments in `timeline.js` → `segments`.
 
 **Want to use your own voice instead?** A founder's real voice builds the most trust. Record the `text` lines, each at the time shown in `timeline.js` → `narration` (start/end). Save the result as `reel/voiceover.wav` (16-bit WAV, starting at 0:00), then run `audio.py` and `render.mjs`. The music ducks under your voice automatically.
 

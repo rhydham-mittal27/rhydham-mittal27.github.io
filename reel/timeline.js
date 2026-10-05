@@ -32,18 +32,18 @@ window.TL = {
   ],
   "cuts": [2.0, 4.0, 7.0, 10.5, 13.0, 14.333, 15.667, 17.0, 19.0, 22.0, 25.5],
   "narration": [
-    { "seg": 0,  "start": 0.05, "end": 1.82, "text": "Six weeks. Idea to live product.", "say": "Six weeks. Idea to [live](/lˈaɪv/) product.", "speed": 1.1 },
-    { "seg": 1,  "start": 2.09, "end": 4.42, "text": "Hi, I'm Rhydham. Full-stack engineer and founder.", "say": "Hi, I'm [Rhydham](/ɹˈiːdəm/). Full-stack engineer, and founder.", "speed": 1.15 },
+    { "seg": 0,  "start": 0.05, "end": 1.87, "text": "Six weeks. Idea to live product.", "say": "Six weeks. Idea to [live](/lˈaɪv/) product.", "speed": 1.1 },
+    { "seg": 1,  "start": 2.1, "end": 4.38, "text": "Hi, I'm Rhydham. Full-stack engineer and founder.", "say": "Hi, I'm Rhythm. Full-stack engineer, and founder.", "speed": 1.15 },
     { "seg": 2,  "start": 4.6, "end": 8.12, "text": "I build the whole thing: frontend, backend, database, SEO. Shipped.", "say": "I build the whole thing: front end, back end, database, S E O. Shipped.", "speed": 1.2 },
     { "seg": 3,  "start": 8.6, "end": 13.39, "text": "My startup MentalSaathi hit 1,500 visitors in month one. Zero ad spend.", "say": "My startup, Mental Saathee, hit fifteen hundred visitors in month one. Zero ad spend.", "speed": 1.2 },
-    { "seg": 4,  "start": 13.6, "end": 16.21, "text": "CollabFluenz: built for a founder. Live in production.", "say": "Collab Fluence: built for a founder. [Live](/lˈaɪv/) in production.", "speed": 1.15 },
+    { "seg": 4,  "start": 13.6, "end": 16.31, "text": "CollabFluenz: built for a founder. Live in production.", "say": "Collab Fluence: built for a founder. [Live](/lˈaɪv/) in production.", "speed": 1.15 },
     { "seg": 5,  "start": 16.55, "end": 18.42, "text": "Zero-downtime database migration.", "say": "Zero-downtime database migration.", "speed": 1.15 },
-    { "seg": 6,  "start": 18.6, "end": 20.87, "text": "91% accurate sign-language AI.", "say": "Ninety-one percent accurate sign-language A I.", "speed": 1.15 },
+    { "seg": 6,  "start": 18.6, "end": 20.88, "text": "91% accurate sign-language AI.", "say": "Ninety-one percent accurate sign-language A I.", "speed": 1.15 },
     { "seg": 7,  "start": 21.1, "end": 22.51, "text": "My own open-source framework.", "say": "My own open-source framework.", "speed": 1.1 },
     { "seg": 8,  "start": 23.03, "end": 26.42, "text": "Next.js, FastAPI, Postgres. One dev, full stack.", "say": "Next J S, Fast A P I, Postgres. One dev, full stack.", "speed": 1.15 },
     { "seg": 9,  "start": 26.6, "end": 29.01, "text": "Weekly builds you can click. Not status updates.", "say": "Weekly builds you can click. Not status updates.", "speed": 1.1 },
     { "seg": 10, "start": 29.6, "end": 32.83, "text": "Got something that needs building? Comment BUILD and I'll DM you.", "say": "Got something that needs building? Comment, build, and I'll D M you.", "speed": 1.1 },
-    { "seg": 11, "start": 35.01, "end": 35.86, "text": "Your idea, live in...", "say": "Your idea, [live](/lˈaɪv/) in", "speed": 1.1 }
+    { "seg": 11, "start": 34.99, "end": 35.86, "text": "Your idea, live in...", "say": "Your idea, [live](/lˈaɪv/) in", "speed": 1.1 }
   ],
   "sfx": [
     { "t": 0.0,   "type": "impact" },
