@@ -1,0 +1,444 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Rhydham Reel</title>
+<link rel="stylesheet" href="fonts/local.css">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:#0b0508;overflow:hidden;height:100%}
+#stage{position:absolute;left:0;top:0;width:1080px;height:1920px;overflow:hidden;background:#160b10;transform-origin:0 0;font-family:'Archivo',sans-serif;color:#f0ded0}
+.full{position:absolute;inset:0}
+.abs{position:absolute}
+.c{left:0;right:0;text-align:center}
+.mono{font-family:'JetBrains Mono',monospace}
+.serif{font-family:'Bodoni Moda',serif;font-weight:400}
+.script{font-family:'Italianno',cursive}
+.gold{background:linear-gradient(104deg,#b98b74 0%,#f6e3d2 22%,#fffaf4 34%,#e9c6ab 48%,#c98e8f 66%,#f4ddc9 82%,#b0806c 100%);background-size:260% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
+.scene{position:absolute;inset:0;display:none}
+.kick{font-family:'JetBrains Mono',monospace;font-size:34px;letter-spacing:.22em;color:#e3c9b6}
+.glass{background:rgba(22,11,16,.72);border:1.5px solid rgba(240,222,208,.22);backdrop-filter:blur(14px);border-radius:26px;box-shadow:0 30px 80px rgba(0,0,0,.55)}
+.browser{position:absolute;border-radius:26px;overflow:hidden;background:#0e0609;border:1.5px solid rgba(240,222,208,.2);box-shadow:0 40px 120px rgba(0,0,0,.6),0 0 0 1px rgba(0,0,0,.4)}
+.bar{height:50px;display:flex;align-items:center;gap:10px;padding:0 20px;background:#1d1014;border-bottom:1px solid rgba(240,222,208,.1)}
+.dot{width:14px;height:14px;border-radius:50%}
+.url{margin-left:18px;flex:1;height:30px;border-radius:15px;background:#2a1820;font:22px 'JetBrains Mono',monospace;color:#cdb3a4;display:flex;align-items:center;padding-left:18px}
+.browser img{display:block;width:100%}
+.pill{position:absolute;white-space:nowrap;border-radius:999px;font-weight:800}
+.stat{position:absolute;width:300px;padding:22px 20px 20px;text-align:center}
+.stat b{display:block;font-weight:900;font-size:76px;line-height:1}
+.stat span{display:block;margin-top:10px;font:21px 'JetBrains Mono',monospace;letter-spacing:.06em;color:#e3c9b6}
+.term-line{white-space:pre;height:64px;line-height:64px}
+.step{position:absolute;left:150px;height:100px;display:flex;align-items:center;gap:26px;width:860px}
+.step .n{font:26px 'JetBrains Mono',monospace;color:#d89aa6;width:50px}
+.step .nm{font-weight:900;font-size:64px;letter-spacing:.01em;flex:1}
+.step .d{font:24px 'JetBrains Mono',monospace;color:#e3c9b6;text-align:right}
+#sub{position:absolute;left:60px;right:60px;top:1150px;height:110px;display:flex;justify-content:center;align-items:center;flex-wrap:nowrap;gap:18px;font-weight:900;font-size:58px;text-transform:uppercase;letter-spacing:.01em}
+#sub span{display:inline-block;white-space:nowrap;padding:4px 14px;border-radius:14px;color:#fffaf4;text-shadow:0 4px 0 rgba(0,0,0,.55),0 0 30px rgba(0,0,0,.6)}
+#sub span.on{background:linear-gradient(120deg,#f4ddc9,#d89aa6);color:#1a0a10;text-shadow:none}
+#play{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(11,5,8,.6);color:#f0ded0;font:600 18px 'JetBrains Mono',monospace;letter-spacing:.2em;cursor:pointer;z-index:10}
+</style>
+</head>
+<body>
+<div id="stage">
+  <!-- background -->
+  <div id="bg" class="full" style="background:radial-gradient(120% 80% at 50% 0%,#3a0f1c 0%,#1d0c12 55%,#120709 100%)"></div>
+  <div id="glow1" class="abs" style="width:900px;height:900px;border-radius:50%;background:radial-gradient(circle,rgba(216,154,166,.35),rgba(216,154,166,0) 65%);left:-200px;top:200px"></div>
+  <div id="glow2" class="abs" style="width:1000px;height:1000px;border-radius:50%;background:radial-gradient(circle,rgba(185,90,70,.28),rgba(185,90,70,0) 65%);left:400px;top:900px"></div>
+  <div id="tint" class="full" style="opacity:0"></div>
+  <div id="grid" class="full" style="opacity:.16;background-image:linear-gradient(rgba(240,222,208,.5) 1px,transparent 1px),linear-gradient(90deg,rgba(240,222,208,.5) 1px,transparent 1px);background-size:90px 90px;-webkit-mask-image:radial-gradient(70% 55% at 50% 45%,#000 0%,transparent 100%);mask-image:radial-gradient(70% 55% at 50% 45%,#000 0%,transparent 100%)"></div>
+  <div id="ring" class="abs" style="width:980px;height:980px;left:50px;top:300px;border-radius:50%;border:1.5px solid rgba(240,222,208,.12)"></div>
+
+  <div id="cam" class="full">
+    <!-- HOOK -->
+    <div class="scene" id="sc-hook">
+      <div id="h-kick" class="abs c kick" style="top:330px">IDEA → LIVE PRODUCT IN</div>
+      <div id="h-six" class="abs c serif gold" style="top:330px;font-size:640px;line-height:1;filter:drop-shadow(0 20px 60px rgba(214,138,155,.35))">6</div>
+      <div id="h-weeks" class="abs c" style="top:900px;font-weight:900;font-size:200px;line-height:1;letter-spacing:-.01em;color:#fffaf4">WEEKS.</div>
+      <div id="h-solo" class="abs" style="left:640px;top:660px;padding:6px 30px;font-weight:900;font-size:92px;color:#1a0a10;background:linear-gradient(120deg,#f4ddc9,#d89aa6);border-radius:12px;box-shadow:0 20px 60px rgba(0,0,0,.5)">SOLO.</div>
+    </div>
+
+    <!-- INTRO -->
+    <div class="scene" id="sc-intro">
+      <div id="i-hi" class="abs c kick" style="top:290px">HI, I'M</div>
+      <div id="i-name" class="abs c serif" style="top:340px;font-size:196px;line-height:1;white-space:nowrap"></div>
+      <img id="i-photo" class="abs" src="../assets/rhydham-hero.png" alt="" style="left:120px;top:470px;width:840px;-webkit-mask-image:linear-gradient(#000 62%,transparent 92%);mask-image:linear-gradient(#000 62%,transparent 92%);filter:drop-shadow(0 30px 60px rgba(0,0,0,.5))">
+      <div id="i-mittal" class="abs script" style="left:520px;top:500px;font-size:210px;line-height:1;color:#e7aab5;text-shadow:0 10px 40px rgba(0,0,0,.5)">Mittal</div>
+      <div id="i-role" class="abs c mono" style="top:1060px"><span class="glass" style="display:inline-flex;align-items:center;gap:16px;padding:18px 30px;border-radius:999px;font-size:28px;letter-spacing:.14em"><i id="i-dot" style="width:16px;height:16px;border-radius:50%;background:#7fe0a0;box-shadow:0 0 18px #7fe0a0"></i>FULL-STACK ENGINEER · FOUNDER</span></div>
+    </div>
+
+    <!-- BUILD -->
+    <div class="scene" id="sc-build">
+      <div id="b-h1" class="abs c" style="top:290px;font-weight:800;font-size:92px;line-height:1">I build the</div>
+      <div id="b-h2" class="abs c serif gold" style="top:385px;font-style:italic;font-size:150px;line-height:1.05">whole thing.</div>
+      <div id="b-term" class="abs" style="left:70px;top:600px;width:940px;height:500px;border-radius:28px;background:#0e0609;border:1.5px solid rgba(240,222,208,.2);box-shadow:0 40px 120px rgba(0,0,0,.6);overflow:hidden">
+        <div class="bar"><i class="dot" style="background:#ff5f57"></i><i class="dot" style="background:#febc2e"></i><i class="dot" style="background:#28c840"></i><span class="mono" style="margin-left:20px;font-size:22px;color:#a88f84">~/your-startup — zsh</span></div>
+        <div class="mono" style="padding:24px 40px;font-size:34px;color:#f0ded0">
+          <div class="term-line" id="t0"></div>
+          <div class="term-line" id="t1"><span style="color:#7fe0a0">✓</span> frontend   <span style="color:#d89aa6">Next.js · TS</span></div>
+          <div class="term-line" id="t2"><span style="color:#7fe0a0">✓</span> backend    <span style="color:#d89aa6">FastAPI · Node</span></div>
+          <div class="term-line" id="t3"><span style="color:#7fe0a0">✓</span> database   <span style="color:#d89aa6">PostgreSQL</span></div>
+          <div class="term-line" id="t4"><span style="color:#7fe0a0">✓</span> seo        <span style="color:#d89aa6">schema · CWV</span></div>
+          <div class="term-line" id="t5" style="color:#7fe0a0;font-weight:700;text-shadow:0 0 24px rgba(127,224,160,.6)">▲ deployed → production</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MENTALSAATHI -->
+    <div class="scene" id="sc-ms">
+      <div id="m-kick" class="abs c kick" style="top:300px;color:#e7aab5">01 — MY STARTUP · LIVE</div>
+      <div id="m-title" class="abs c serif gold" style="top:340px;font-size:136px;line-height:1.05">MentalSaathi</div>
+      <div id="m-sub" class="abs c" style="top:505px;font-size:36px;color:#e3c9b6">peer-support wellness for students</div>
+      <div id="m-browser" class="browser" style="left:80px;top:590px;width:920px">
+        <div class="bar"><i class="dot" style="background:#ff5f57"></i><i class="dot" style="background:#febc2e"></i><i class="dot" style="background:#28c840"></i><div class="url">mentalsaathi.in</div></div>
+        <div style="overflow:hidden"><img id="m-img" src="../assets/mentalsaathi-screenshot.jpg" alt=""></div>
+      </div>
+      <div id="m-s1" class="stat glass" style="left:50px;top:950px"><b class="gold">6 WKS</b><span>concept → live</span></div>
+      <div id="m-s2" class="stat glass" style="left:390px;top:950px"><b class="gold" id="m-count">1,500+</b><span>visitors · month 1</span></div>
+      <div id="m-s3" class="stat glass" style="left:730px;top:950px"><b class="gold">₹0</b><span>ad spend</span></div>
+    </div>
+
+    <!-- COLLABFLUENZ -->
+    <div class="scene" id="sc-cf">
+      <div id="c-kick" class="abs c kick" style="top:300px;color:#e7aab5">02 — CLIENT BUILD · LIVE</div>
+      <div id="c-title" class="abs c serif gold" style="top:340px;font-size:136px;line-height:1.05">CollabFluenz</div>
+      <div id="c-sub" class="abs c" style="top:505px;font-size:36px;color:#e3c9b6">creator × brand marketplace</div>
+      <div id="c-browser" class="browser" style="left:80px;top:590px;width:920px">
+        <div class="bar"><i class="dot" style="background:#ff5f57"></i><i class="dot" style="background:#febc2e"></i><i class="dot" style="background:#28c840"></i><div class="url">collabfluenz.com</div></div>
+        <div style="overflow:hidden"><img id="c-img" src="../assets/collabfluenz-screenshot.jpg" alt=""></div>
+      </div>
+      <div id="c-p1" class="pill" style="left:60px;top:990px;padding:20px 34px;font-size:36px;color:#1a0a10;background:linear-gradient(120deg,#f4ddc9,#d89aa6);box-shadow:0 20px 50px rgba(0,0,0,.5)">FastAPI + Supabase</div>
+      <div id="c-p2" class="pill glass" style="right:60px;top:900px;padding:20px 34px;font-size:36px;border-radius:999px">Built for a founder</div>
+      <div id="c-p3" class="pill glass" style="right:110px;top:1060px;padding:20px 34px;font-size:36px;border-radius:999px;display:flex;align-items:center;gap:14px"><i style="width:16px;height:16px;border-radius:50%;background:#7fe0a0;box-shadow:0 0 18px #7fe0a0"></i>Live in production</div>
+    </div>
+
+    <!-- PROOF (3 rapid cards) -->
+    <div class="scene" id="sc-proof">
+      <div id="p-a" class="full">
+        <div class="abs c kick" style="top:330px">PROOF, NOT PROMISES</div>
+        <div class="abs c gold" style="top:380px;font-weight:900;font-size:420px;line-height:1">0s</div>
+        <div class="abs c" style="top:810px;font-weight:900;font-size:96px;letter-spacing:.06em">DOWNTIME</div>
+        <div class="abs c mono" style="top:940px;font-size:32px;color:#e3c9b6">live database → PostgreSQL migration</div>
+      </div>
+      <div id="p-b" class="full">
+        <div class="abs c kick" style="top:330px">GDG HACKS · COMPUTER VISION</div>
+        <div id="p-91" class="abs c gold" style="top:380px;font-weight:900;font-size:400px;line-height:1">91%</div>
+        <div class="abs c" style="top:810px;font-weight:900;font-size:96px;letter-spacing:.06em">ACCURACY</div>
+        <div class="abs c mono" style="top:940px;font-size:32px;color:#e3c9b6">real-time sign language → text</div>
+      </div>
+      <div id="p-c" class="full">
+        <div class="abs c kick" style="top:330px">OPEN SOURCE · MIT</div>
+        <div class="abs c serif gold" style="top:360px;font-style:italic;font-size:320px;line-height:1.1">mango</div>
+        <div class="abs c" style="top:790px"><span class="mono glass" id="p-pip" style="display:inline-block;min-width:720px;text-align:left;padding:26px 36px;font-size:40px;border-radius:20px;color:#7fe0a0"></span></div>
+        <div class="abs c mono" style="top:950px;font-size:32px;color:#e3c9b6">my FastAPI framework · live on PyPI</div>
+      </div>
+    </div>
+
+    <!-- STACK -->
+    <div class="scene" id="sc-stack">
+      <div id="s-h1" class="abs c" style="top:290px;font-weight:900;font-size:110px;line-height:1">ONE DEV.</div>
+      <div id="s-h2" class="abs c serif gold" style="top:400px;font-style:italic;font-size:140px;line-height:1.05">full stack.</div>
+      <div id="s-tags"></div>
+    </div>
+
+    <!-- PROCESS -->
+    <div class="scene" id="sc-process">
+      <div id="p-h1" class="abs c serif gold" style="top:280px;font-style:italic;font-size:136px;line-height:1.05">How I work</div>
+      <div id="p-h2" class="abs c" style="top:450px;font-size:38px;color:#e3c9b6">weekly builds you can click — <b style="color:#fffaf4">not status updates</b></div>
+      <div id="p-rail" class="abs" style="left:116px;top:600px;width:4px;height:500px;background:rgba(240,222,208,.12);border-radius:2px"><div id="p-fill" style="width:100%;height:0;background:linear-gradient(#f4ddc9,#d89aa6);border-radius:2px;box-shadow:0 0 18px rgba(216,154,166,.8)"></div></div>
+      <div id="p-steps"></div>
+    </div>
+
+    <!-- CTA -->
+    <div class="scene" id="sc-cta">
+      <div id="k-l1" class="abs c serif" style="top:290px;font-size:146px;line-height:1.05;color:#fffaf4">Got something</div>
+      <div id="k-l2" class="abs c serif" style="top:445px;font-size:146px;line-height:1.05;font-style:italic;color:#f0d8c2">that needs</div>
+      <div id="k-l3" class="abs c serif gold" style="top:600px;font-size:160px;line-height:1.05">building?</div>
+      <div id="k-btn" class="abs c" style="top:830px"><span id="k-btn-in" style="position:relative;display:inline-block;padding:30px 60px;border-radius:999px;font-weight:900;font-size:68px;letter-spacing:.02em;color:#1a0a10;background:linear-gradient(120deg,#fffaf4,#f4ddc9 40%,#d89aa6);box-shadow:0 30px 80px rgba(216,154,166,.45)">COMMENT “BUILD”<i id="k-ring" style="position:absolute;inset:-6px;border-radius:999px;border:3px solid #f4ddc9"></i></span></div>
+      <div id="k-dm" class="abs c mono" style="top:985px;font-size:32px;color:#e3c9b6;letter-spacing:.08em">→ I'll DM you to scope it</div>
+      <div id="k-wa" class="abs c" style="top:1045px;font-size:34px;font-weight:600;color:#f0ded0">or WhatsApp <span class="mono" style="color:#fffaf4">+91 76579 71009</span></div>
+    </div>
+
+    <!-- LOOP BRIDGE -->
+    <div class="scene" id="sc-loop">
+      <div id="l-kick" class="abs c kick" style="top:330px"></div>
+    </div>
+
+    <!-- dictation captions -->
+    <div id="sub"></div>
+  </div>
+
+  <div id="wipe" class="abs" style="top:-200px;height:2320px;width:1500px;left:0;background:linear-gradient(100deg,#f4ddc9 0%,#d89aa6 45%,#4a0d1e 100%);transform:translateX(-2000px) skewX(-14deg);box-shadow:0 0 120px rgba(216,154,166,.6)"></div>
+  <div id="flash" class="full" style="background:#fff3ea;opacity:0;mix-blend-mode:screen"></div>
+  <div id="vig" class="full" style="background:radial-gradient(120% 90% at 50% 45%,transparent 55%,rgba(0,0,0,.55) 100%)"></div>
+  <div id="grain" class="abs" style="left:-100px;top:-100px;width:1280px;height:2120px;opacity:.09;mix-blend-mode:overlay;background-image:url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='256' height='256'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E&quot;)"></div>
+</div>
+<script src="timeline.js"></script>
+<script>
+(function(){
+const TL = window.TL;
+const $ = id => document.getElementById(id);
+const cl = (x,a=0,b=1) => Math.min(b, Math.max(a, x));
+const R = (t,a,b) => cl((t-a)/(b-a));
+const mix = (a,b,x) => a + (b-a)*x;
+const eo = x => 1 - Math.pow(1-x, 3);
+const eo5 = x => 1 - Math.pow(1-x, 5);
+const eio = x => x < .5 ? 4*x*x*x : 1 - Math.pow(-2*x+2, 3)/2;
+const eb = x => { const c1 = 2.0, c3 = c1 + 1; return 1 + c3*Math.pow(x-1,3) + c1*Math.pow(x-1,2); };
+const S = (el, o, tf, f) => { el.style.opacity = o; el.style.transform = tf || 'none'; if (f !== undefined) el.style.filter = f; };
+
+// Standard entrance: rise + scale + unblur.
+function enter(el, t, t0, d=.4, o={}) {
+  const y = o.y ?? 70, s = o.s ?? .9, b = o.blur ?? 14, x = o.x ?? 0, r = o.rot ?? 0;
+  const q = R(t, t0, t0+d), e = eo5(q), k = o.back ? eb(q) : e;
+  S(el, cl(q*2.5), `translate(${(1-e)*x}px,${(1-e)*y}px) scale(${mix(s,1,k)}) rotate(${(1-e)*r}deg)`, b ? `blur(${(1-e)*b}px)` : undefined);
+  return q;
+}
+// Slam: from big to settled, hard landing.
+function slam(el, t, t0, d=.22, o={}) {
+  const q = R(t, t0, t0+d), e = eo(q), from = o.from ?? 2.4, rot = o.rot ?? 0;
+  S(el, q > 0 ? 1 : 0, `${o.pre||''} scale(${mix(from,1,e)}) rotate(${rot}deg)`, `blur(${(1-e)*18}px)`);
+  return q;
+}
+const typed = (str, t, t0, d) => str.slice(0, Math.round(str.length * R(t, t0, t0+d)));
+
+// ---- build dynamic DOM ----
+const name = 'RHYDHAM';
+$('i-name').innerHTML = [...name].map(ch => `<span class="gold" style="display:inline-block">${ch}</span>`).join('');
+const nameEls = [...$('i-name').children];
+
+const tags = [['NEXT.JS',70,600,-4,1],['REACT',600,605,3,0],['TYPESCRIPT',150,720,2,0],['FASTAPI',610,730,-3,1],['POSTGRESQL',60,845,-2,0],['SUPABASE',560,850,4,0],['OPENCV',200,965,3,1],['CI/CD',640,970,-4,0]];
+$('s-tags').innerHTML = tags.map(([n,x,y,r,f]) => `<div class="pill" style="left:${x}px;top:${y}px;padding:16px 34px;font-size:52px;${f ? 'color:#1a0a10;background:linear-gradient(120deg,#f4ddc9,#d89aa6)' : 'border:2.5px solid rgba(240,222,208,.45);background:rgba(22,11,16,.6)'}">${n}</div>`).join('');
+const tagEls = [...$('s-tags').children];
+
+const steps = [['01','SCOPE','one call'],['02','ARCHITECT','schema + API first'],['03','BUILD','weekly deploys'],['04','HARDEN','perf · SEO · CI'],['05','HAND OVER','docs + admin']];
+$('p-steps').innerHTML = steps.map(([n,nm,d],i) => `<div class="step" style="top:${600 + i*100}px"><span class="n">${n}</span><span class="nm">${nm}</span><span class="d">${d}</span></div>`).join('');
+const stepEls = [...$('p-steps').children];
+
+// ---- dictation captions: estimate per-word timings from the narration script ----
+const caps = TL.narration.map(line => {
+  const words = line.text.split(/\s+/);
+  const w = words.map(x => Math.max(1, x.replace(/[^\w]/g,'').length / 3.2) + (/[.?!]$/.test(x) ? .9 : /[,:]$/.test(x) ? .5 : 0));
+  const total = w.reduce((a,b) => a+b, 0);
+  let acc = line.start;
+  const ws = words.map((x,i) => { const s = acc; acc += (line.end - line.start) * w[i] / total; return { w: x, s, e: acc }; });
+  // chunk into groups of up to 3 words, breaking after punctuation
+  const chunks = []; let cur = [];
+  ws.forEach(o => { const len = cur.reduce((a,c) => a + c.w.length + 1, 0); if (cur.length && len + o.w.length > 22) { chunks.push(cur); cur = []; } cur.push(o); if (cur.length === 3 || /[.?!,:]$/.test(o.w)) { chunks.push(cur); cur = []; } });
+  if (cur.length) chunks.push(cur);
+  return { line, chunks };
+});
+let lastSub = '';
+function subtitles(t) {
+  let html = '', q = 0;
+  for (const { line, chunks } of caps) {
+    if (t < line.start || t > line.end + .15) continue;
+    const ch = chunks.find((c,i) => t < c[c.length-1].e || i === chunks.length-1);
+    const t0 = ch[0].s; q = R(t, t0, t0 + .12);
+    html = ch.map(o => `<span class="${t >= o.s && t < o.e ? 'on' : ''}">${o.w}</span>`).join('');
+    break;
+  }
+  if (html !== lastSub) { $('sub').innerHTML = html; lastSub = html; }
+  $('sub').style.opacity = html ? 1 : 0;
+  $('sub').style.transform = `translateY(${(1-eo(q))*24}px) scale(${mix(.92,1,eo(q))})`;
+}
+
+// ---- impacts drive camera shake ----
+const impacts = [[0.3,22],[1.0,10],[6.25,10],[13.0,16],[14.333,16],[15.667,16],[22.0,26],[23.1,10]].concat(tags.map((_,i) => [17.15 + i*.2, 7]));
+function shake(t) {
+  let x = 0, y = 0;
+  for (const [t0, a] of impacts) {
+    const d = t - t0; if (d < 0 || d > .4) continue;
+    const k = a * Math.pow(1 - d/.4, 2);
+    x += Math.sin(d*95) * k; y += Math.cos(d*83) * k * .8;
+  }
+  return [x, y];
+}
+
+const scenes = Object.fromEntries(TL.scenes.map(s => [s.id, s]));
+const sceneEls = Object.fromEntries(TL.scenes.map(s => [s.id, $('sc-' + s.id)]));
+
+function render(t) {
+  // background drift + beat pulse
+  const beat = 60 / TL.bpm, bp = Math.exp(-(t % beat) * 9) * (t >= 21.5 && t < 22 ? 0 : 1);
+  S($('glow1'), .9 + .1*bp, `translate(${Math.sin(t*.6)*80}px,${Math.cos(t*.45)*120}px) scale(${1 + .04*bp})`);
+  S($('glow2'), 1, `translate(${Math.cos(t*.5)*90}px,${Math.sin(t*.4)*100}px)`);
+  $('grid').style.backgroundPosition = `0 ${(t*60)%90}px`;
+  S($('ring'), .6 + .4*bp, `rotate(${t*8}deg) scale(${1 + .02*bp})`);
+  $('grain').style.transform = `translate(${(Math.floor(t*24)*37)%100}px,${(Math.floor(t*24)*53)%100}px)`;
+
+  // per-scene background tint for pattern interrupts
+  const tint = $('tint');
+  if (t >= 13 && t < 17) { const i = Math.floor((t-13)/1.3334); tint.style.background = ['radial-gradient(100% 70% at 50% 35%,#4a0d1e,#160b10)','radial-gradient(100% 70% at 50% 35%,#3b1530,#140810)','radial-gradient(100% 70% at 50% 35%,#4a1f12,#160b10)'][i]; tint.style.opacity = 1; }
+  else if (t >= 22 && t < 25.5) { tint.style.background = 'radial-gradient(120% 80% at 50% 20%,#5a1226 0%,#2a0a12 50%,#140709 100%)'; tint.style.opacity = 1; }
+  else tint.style.opacity = 0;
+
+  // scene visibility
+  for (const id in scenes) sceneEls[id].style.display = (t >= scenes[id].start && t < scenes[id].end) ? 'block' : 'none';
+
+  // camera: shake + subtle beat punch
+  const [sx, sy] = shake(t);
+  S($('cam'), 1, `translate(${sx}px,${sy}px) scale(${1 + .008*bp})`);
+
+  // ---------------- HOOK 0–2 ----------------
+  if (t < 2) {
+    S($('h-kick'), 1, `translateY(0)`);
+    S($('h-six'), 1, `scale(${mix(1, 1.06, R(t,0,2))}) translateY(${t < .3 ? 0 : -10}px)`);
+    $('h-six').style.backgroundPosition = `${(t*30)%260}% 0`;
+    slam($('h-weeks'), t, .3, .2, { from: 2.6 });
+    slam($('h-solo'), t, 1.0, .18, { from: 2, rot: -8 });
+  }
+  // ---------------- INTRO 2–4 ----------------
+  if (t >= 2 && t < 4) {
+    enter($('i-hi'), t, 2.02, .3, { y: 30 });
+    nameEls.forEach((el, i) => { el.style.backgroundPosition = `${(t*30 + i*20)%260}% 0`; enter(el, t, 2.05 + i*.045, .4, { y: 140, s: 1, blur: 10 }); });
+    const q = R(t, 2.1, 2.6);
+    S($('i-photo'), cl(q*3), `translateY(${(1-eo5(q))*260}px) scale(${mix(.9,1,eo5(q)) * mix(1,1.05,R(t,2.6,4))})`);
+    enter($('i-mittal'), t, 2.45, .45, { x: 160, y: 0, rot: 6, s: 1 });
+    $('i-mittal').style.transform += ' rotate(-8deg)';
+    enter($('i-role'), t, 3.05, .35, { y: 40, back: true, s: .7 });
+    $('i-dot').style.opacity = .5 + .5*Math.abs(Math.sin(t*6));
+  }
+  // ---------------- BUILD 4–7 ----------------
+  if (t >= 4 && t < 7) {
+    enter($('b-h1'), t, 4.0, .35, { y: 50 });
+    enter($('b-h2'), t, 4.12, .4, { y: 60 });
+    $('b-h2').style.backgroundPosition = `${(t*30)%260}% 0`;
+    const q = R(t, 4.0, 4.4), dq = R(t, 6.25, 6.5);
+    S($('b-term'), cl(q*2), `perspective(1600px) translateY(${(1-eo5(q))*200}px) rotateX(${(1-eo5(q))*22}deg) scale(${1 + Math.sin(dq*Math.PI)*.04})`);
+    $('b-term').style.borderColor = dq > 0 ? `rgba(127,224,160,${.2 + .6*(1-dq*.5)})` : 'rgba(240,222,208,.2)';
+    $('b-term').style.boxShadow = dq > 0 ? '0 40px 120px rgba(0,0,0,.6),0 0 90px rgba(127,224,160,.35)' : '0 40px 120px rgba(0,0,0,.6)';
+    const cmd = '$ ship --idea "your-startup"';
+    const caret = (Math.floor(t*4) % 2 === 0 || t < 4.85) && t < 4.95 ? '▌' : '';
+    $('t0').textContent = typed(cmd, t, 4.25, .6) + caret;
+    [4.95, 5.25, 5.55, 5.85, 6.25].forEach((t0, i) => enter($('t' + (i+1)), t, t0, .22, { x: -40, y: 0, s: 1, blur: 6 }));
+  }
+  // ---------------- MENTALSAATHI 7–10.5 ----------------
+  if (t >= 7 && t < 10.5) {
+    enter($('m-kick'), t, 7.0, .3, { y: 30 });
+    enter($('m-title'), t, 7.05, .4, { y: 60 });
+    $('m-title').style.backgroundPosition = `${(t*30)%260}% 0`;
+    enter($('m-sub'), t, 7.2, .35, { y: 30 });
+    const q = R(t, 7.1, 7.6);
+    S($('m-browser'), cl(q*2), `perspective(1800px) translateY(${(1-eo5(q))*260}px) rotateX(${(1-eo5(q))*28}deg) rotateY(${Math.sin(t*.9)*3}deg) scale(${mix(.85,1,eo5(q))})`);
+    $('m-img').style.transform = `scale(${mix(1,1.08,R(t,7.5,10.5))})`;
+    enter($('m-s1'), t, 8.0, .35, { y: 80, back: true, s: .6 });
+    enter($('m-s2'), t, 8.5, .35, { y: 80, back: true, s: .6 });
+    enter($('m-s3'), t, 9.0, .35, { y: 80, back: true, s: .6 });
+    const n = Math.round(1500 * eo(R(t, 8.5, 9.3)) / 10) * 10;
+    $('m-count').textContent = n.toLocaleString('en-US') + (n >= 1500 ? '+' : '');
+  }
+  // ---------------- COLLABFLUENZ 10.5–13 ----------------
+  if (t >= 10.5 && t < 13) {
+    enter($('c-kick'), t, 10.5, .3, { y: 30 });
+    enter($('c-title'), t, 10.55, .4, { y: 60 });
+    $('c-title').style.backgroundPosition = `${(t*30)%260}% 0`;
+    enter($('c-sub'), t, 10.7, .35, { y: 30 });
+    const q = R(t, 10.55, 11.05);
+    S($('c-browser'), cl(q*2), `perspective(1800px) translateX(${(1-eo5(q))*800}px) rotateY(${(1-eo5(q))*-35 + Math.sin(t*.9)*3}deg) scale(${mix(.85,1,eo5(q))})`);
+    $('c-img').style.transform = `scale(${mix(1,1.08,R(t,11,13))})`;
+    enter($('c-p1'), t, 11.2, .3, { y: 0, x: -200, back: true, s: .6, rot: -10 });
+    enter($('c-p2'), t, 11.6, .3, { y: 0, x: 200, back: true, s: .6, rot: 10 });
+    enter($('c-p3'), t, 12.0, .3, { y: 80, back: true, s: .6 });
+    $('c-p1').style.transform += ' rotate(-3deg)';
+    $('c-p2').style.transform += ' rotate(2deg)';
+  }
+  // ---------------- PROOF 13–17 ----------------
+  if (t >= 13 && t < 17) {
+    const cards = [['p-a', 13.0], ['p-b', 14.333], ['p-c', 15.667]];
+    cards.forEach(([id, t0], i) => {
+      const el = $(id), on = t >= t0 && t < t0 + 1.3334;
+      el.style.display = on ? 'block' : 'none';
+      if (!on) return;
+      const q = R(t, t0, t0 + .25);
+      S(el, 1, `scale(${mix(1.35, 1, eo5(q)) * mix(1, 1.04, R(t, t0+.25, t0+1.33))})`, `blur(${(1-eo5(q))*16}px)`);
+      [...el.querySelectorAll('.gold')].forEach(g => g.style.backgroundPosition = `${(t*40)%260}% 0`);
+    });
+    $('p-91').textContent = Math.round(91 * eo(R(t, 14.333, 14.8))) + '%';
+    const pip = '$ pip install mangoframe';
+    $('p-pip').textContent = typed(pip, t, 15.9, .5) + (Math.floor(t*4) % 2 ? '▌' : ' ');
+  }
+  // ---------------- STACK 17–19 ----------------
+  if (t >= 17 && t < 19) {
+    enter($('s-h1'), t, 17.0, .3, { y: 50 });
+    enter($('s-h2'), t, 17.08, .35, { y: 60 });
+    $('s-h2').style.backgroundPosition = `${(t*30)%260}% 0`;
+    tagEls.forEach((el, i) => slam(el, t, 17.15 + i*.2, .16, { from: 2.2, rot: tags[i][3] }));
+  }
+  // ---------------- PROCESS 19–22 ----------------
+  if (t >= 19 && t < 22) {
+    enter($('p-h1'), t, 19.0, .35, { y: 60 });
+    $('p-h1').style.backgroundPosition = `${(t*30)%260}% 0`;
+    enter($('p-h2'), t, 19.12, .35, { y: 30 });
+    enter($('p-rail'), t, 19.1, .3, { y: 0, s: 1 });
+    stepEls.forEach((el, i) => {
+      const t0 = 19.4 + i*.45, q = R(t, t0, t0 + .25);
+      const base = R(t, 19.15 + i*.05, 19.45 + i*.05);
+      el.style.opacity = base * mix(.22, 1, q);
+      el.style.transform = `translateX(${(1-eo5(base))*-60 + (1-eo(q))*0}px) scale(${mix(1, 1.0, q) + Math.sin(R(t,t0,t0+.3)*Math.PI)*.06})`;
+      el.querySelector('.nm').style.color = q > 0 ? '#fffaf4' : '#f0ded0';
+    });
+    $('p-fill').style.height = (eo(R(t, 19.4, 21.25)) * 100) + '%';
+  }
+  // ---------------- CTA 22–25.5 ----------------
+  if (t >= 22 && t < 25.5) {
+    const out = R(t, 25.2, 25.5);
+    ['k-l1','k-l2','k-l3'].forEach((id, i) => enter($(id), t, 22.0 + i*.18, .45, { y: 90, blur: 18 }));
+    $('k-l3').style.backgroundPosition = `${(t*30)%260}% 0`;
+    const bq = R(t, 23.1, 23.4);
+    S($('k-btn'), cl(bq*3), `scale(${mix(.4, 1, eb(bq)) * (1 + .035*Math.sin(Math.max(0,t-23.4)*Math.PI*4))})`);
+    const rp = ((t - 23.4) % .8) / .8;
+    S($('k-ring'), t > 23.4 ? (1-rp)*.9 : 0, `scale(${1 + rp*.25})`);
+    enter($('k-dm'), t, 23.45, .35, { y: 30 });
+    enter($('k-wa'), t, 23.65, .35, { y: 30 });
+    if (out > 0) S($('cam'), 1-out, `translate(${sx}px,${sy}px) scale(${1 - out*.06})`, `blur(${out*14}px)`);
+    else $('cam').style.filter = 'none';
+  } else $('cam').style.filter = 'none';
+  // ---------------- LOOP BRIDGE 25.5–26 ----------------
+  if (t >= 25.5) {
+    $('l-kick').textContent = typed('IDEA → LIVE PRODUCT IN', t, 25.5, .35);
+  }
+
+  // ---------------- transitions ----------------
+  const wipe = $('wipe'); let wv = false;
+  TL.cuts.forEach((c, i) => {
+    if (c >= 13 && c < 17) { // proof cards use flash cuts instead of wipes
+      const f = R(t, c, c + .16);
+      if (t >= c - .02 && t < c + .16) { $('flash').style.opacity = .55 * (1 - f); wv = wv || false; }
+      return;
+    }
+    const q = R(t, c - .2, c + .2);
+    if (q > 0 && q < 1) {
+      const dir = i % 2 ? -1 : 1, x = mix(-1900, 1500, eio(q));
+      wipe.style.transform = `translateX(${dir > 0 ? x : 1080 - x - 1500}px) skewX(${-14*dir}deg)`;
+      wv = true;
+    }
+  });
+  wipe.style.display = wv ? 'block' : 'none';
+  const anyFlash = TL.cuts.some(c => c >= 13 && c < 17 && t >= c - .02 && t < c + .16) || (t >= .3 && t < .45) || (t >= 22 && t < 22.18);
+  if (!anyFlash) $('flash').style.opacity = 0;
+  if (t >= .3 && t < .45) $('flash').style.opacity = .5 * (1 - R(t, .3, .45));
+  if (t >= 22 && t < 22.18) $('flash').style.opacity = .6 * (1 - R(t, 22, 22.18));
+
+  subtitles(t);
+}
+window.render = render;
+
+// ---- preview player (skipped when rendering frames) ----
+const params = new URLSearchParams(location.search);
+function fit() { const s = Math.min(innerWidth/1080, innerHeight/1920); const st = $('stage'); st.style.transform = `scale(${s})`; st.style.left = (innerWidth - 1080*s)/2 + 'px'; }
+if (params.has('render')) { render(+params.get('t') || 0); return; }
+addEventListener('resize', fit); fit(); render(0);
+const btn = document.createElement('div'); btn.id = 'play'; btn.textContent = '▶  TAP TO PLAY WITH SOUND'; document.body.appendChild(btn);
+const audio = new Audio('build/soundtrack.wav'); audio.loop = true;
+btn.onclick = () => {
+  btn.remove();
+  let t0 = performance.now();
+  audio.play().catch(() => {});
+  (function loop(now) { const t = audio.duration && !audio.paused ? audio.currentTime % TL.duration : ((now - t0)/1000) % TL.duration; render(t); requestAnimationFrame(loop); })(performance.now());
+};
+})();
+</script>
+</body>
+</html>
